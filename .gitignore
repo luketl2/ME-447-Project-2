@@ -1,7 +1,7 @@
 *.pov
 *.inc
-*.mp4
-*.png
+# *.mp4
+# *.png
 *.dat
 # Byte-compiled / optimized / DLL files
 __pycache__/

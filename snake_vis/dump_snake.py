@@ -6,7 +6,8 @@ __license__ = "GPL"
 
 import numpy as np
 import pickle as pk
-
+import os
+import shutil
 def dump_snake_to_povray(t_step, t_pos, t_radius=0.01, t_prefix=""):
     """ Dumps the rod for visualization in povray. Assumes that the
     rod is of unit length almost on the XY plane (normal Z) and translates
@@ -122,7 +123,7 @@ def milestone1_dumpy():
             data_arr = np.vstack((x_vals, y_vals, z_vals))
             dump_snake_to_povray(timestep, data_arr, radius, prefix)
 
-def milestone2_dump():
+def milestone2_initial():
     n_elements = 50
     tot_length = 3
     n_nodes = n_elements+1
@@ -140,7 +141,31 @@ def milestone2_dump():
     prefix = "./v_data/"
     data_arr = np.vstack((x_vals, y_vals, z_vals))
     dump_snake_to_povray(0, data_arr, radius, prefix)
+
+def milestone2_dump():
+    prefix = "./m2_data/"
+    if os.path.exists(prefix):
+        shutil.rmtree(prefix)
+        os.mkdir(prefix)
+    with open("milestone2.dat", 'rb') as fptr:
+        data = pk.load(fptr)
+        for timestep in [10* i for i in range(150)]:
+            x_vals = data[2, :, timestep] # x values, for all nodes, at a given timestep
+            y_vals = data[1, :, timestep] 
+            radius = 0.05
+            z_vals = data[0, :, timestep]
+            
+            data_arr = np.vstack((x_vals, y_vals, z_vals))
+            dump_snake_to_povray(timestep, data_arr, radius, prefix)
+        # for timestep in range(-1, -5, -1):
+        #     x_vals = data[2, :, timestep] # x values, for all nodes, at a given timestep
+        #     y_vals = data[1, :, timestep] 
+        #     radius = 0.05
+        #     z_vals = data[0, :, timestep]
+        #     prefix = "./m2_data/"
+        #     data_arr = np.vstack((x_vals, y_vals, z_vals))
+        #     dump_snake_to_povray(timestep, data_arr, radius, prefix)
 if __name__ == "__main__":
-    test_dump()
+    # test_dump()
     # milestone1_dumpy()
-    # milestone2_dump()
+    milestone2_dump()
