@@ -143,18 +143,26 @@ def milestone2_initial():
     dump_snake_to_povray(0, data_arr, radius, prefix)
 
 def milestone2_dump():
-    prefix = "./m2_data/"
+    prefix = "./m2_data_2elems/"
     if os.path.exists(prefix):
         shutil.rmtree(prefix)
         os.mkdir(prefix)
-    with open("milestone2.dat", 'rb') as fptr:
+    else:
+        os.mkdir(prefix)
+    with open("milestone2_2elems.dat", 'rb') as fptr:
         data = pk.load(fptr)
-        for timestep in [10* i for i in range(150)]:
+        print(data.shape)
+        for timestep in [10* i for i in range(10)]:
             x_vals = data[2, :, timestep] # x values, for all nodes, at a given timestep
             y_vals = data[1, :, timestep] 
             radius = 0.05
             z_vals = data[0, :, timestep]
-            
+            print(x_vals.shape)
+            x_vals = np.array([x_vals[0], x_vals[1], x_vals[1], x_vals[2]])
+            y_vals = np.array([y_vals[0], y_vals[1], y_vals[1], y_vals[2]])
+            z_vals = np.array([z_vals[0], z_vals[1], z_vals[1], z_vals[2]])
+#             print(x_vals)
+            print(x_vals.shape)
             data_arr = np.vstack((x_vals, y_vals, z_vals))
             dump_snake_to_povray(timestep, data_arr, radius, prefix)
         # for timestep in range(-1, -5, -1):
