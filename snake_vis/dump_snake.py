@@ -152,7 +152,7 @@ def milestone2_dump():
     with open("milestone2_2elems.dat", 'rb') as fptr:
         data = pk.load(fptr)
         print(data.shape)
-        for timestep in [10* i for i in range(10)]:
+        for timestep in [100*i for i in range(50)]:
             x_vals = data[2, :, timestep] # x values, for all nodes, at a given timestep
             y_vals = data[1, :, timestep] 
             radius = 0.05
